@@ -1,0 +1,7 @@
+src/main/webapp/Pictures/Images/*
+target
+src/main/webapp/images/*
+*.iml
+.idea
+eclipse-launch-profiles
+.DS_Store

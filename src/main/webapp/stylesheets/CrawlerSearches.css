@@ -1,0 +1,19 @@
+/*table#crawlerSearches {
+    border-collapse: collapse;
+}
+#crawlerSearches tr {
+    background-color: #eee;
+    border-top: 1px solid #fff;
+}
+#crawlerSearches tr:hover {
+    background-color: #ccc;
+}
+#crawlerSearches th {
+    background-color: #fff;
+}
+#crawlerSearches th, #crawlerSearches td {
+    padding: 3px 5px;
+}*/
+#crawlerSearches td:hover {
+    cursor: pointer;
+}
