@@ -1,10 +1,11 @@
 package com.google.appengine.demos.ImageCollage;
 
-import com.google.appengine.api.appidentity.*;
-import com.google.appengine.api.blobstore.*;
-import com.google.appengine.api.datastore.*;
-import com.google.appengine.api.files.*;
-import com.google.appengine.api.images.*;
+import com.google.appengine.api.blobstore.BlobKey;
+import com.google.appengine.api.blobstore.BlobstoreService;
+import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
+import com.google.appengine.api.images.Image;
+import com.google.appengine.api.images.ImagesService;
+import com.google.appengine.api.images.ImagesServiceFactory;
 import com.google.appengine.tools.cloudstorage.*;
 import com.google.gson.Gson;
 
@@ -57,12 +58,12 @@ public class MakeMosaicServlet extends HttpServlet {
         ImagesService imgService = ImagesServiceFactory.getImagesService();
         Image collage = master.getCollage(imgService, blobKey, depth, threshold, smartSizing);
         //get the url for collage by adding it to the blobstore
-        BlobKey mosaicBlobKey = toBlobstore(collage);
-        String url = imgService.getServingUrl(ServingUrlOptions.Builder.withBlobKey(mosaicBlobKey))+"=s1600";
+        //BlobKey mosaicBlobKey = toBlobstore(collage);
+        String url = "https://storage.googleapis.com/image-mosaic.appspot.com/" + time + "_mosaic.png";
         //now get the url and attribute wrapped together in an object in JSON format
         String urlAndAttribute = new Gson().toJson(new URLAndAttribute(url, master.getAttributionTable(), master.getX(), master.getY()));
         GcsService gcsService =
-                GcsServiceFactory.createGcsService(RetryParams.getDefaultInstance());
+               GcsServiceFactory.createGcsService(RetryParams.getDefaultInstance());
         GcsOutputChannel outputChannel =
                 gcsService.createOrReplace(new GcsFilename("image-mosaic.appspot.com", time), GcsFileOptions.getDefaultInstance());
         outputChannel.write(ByteBuffer.wrap(urlAndAttribute.getBytes("UTF-8")));
@@ -76,14 +77,14 @@ public class MakeMosaicServlet extends HttpServlet {
     /*
     inputs: Image uploadMe, the image that is to be uploaded to the blobstore
     returns the BlobKey for uploadMe
-     */
+
     public static BlobKey toBlobstore(Image uploadMe){
         try {
             // Get a file service
-            FileService fileService = FileServiceFactory.getFileService();
+            GcsService fileService = GcsServiceFactory.createGcsService();
 
             // Create a new Blob file with mime-type "image/png"
-            AppEngineFile file = fileService.createNewBlobFile("image/jpeg");// png
+            GcsOutputChannel file = fileService.createOrReplace(new GcsFilename("image-mosaic.appspot.com", Long.toString(System.currentTimeMillis())), );// png
 
             // Open a channel to write to it
             boolean lock = true;
@@ -103,6 +104,7 @@ public class MakeMosaicServlet extends HttpServlet {
             return null;
         }
     }
+    */
 
     /*
     URLAndAttribute wraps up the pertinent data for a completed collage:

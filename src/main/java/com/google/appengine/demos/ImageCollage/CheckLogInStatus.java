@@ -1,3 +1,4 @@
+package com.google.appengine.demos.ImageCollage;
 
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;

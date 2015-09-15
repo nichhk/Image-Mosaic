@@ -1,11 +1,5 @@
 package com.google.appengine.demos.ImageCollage;
 
-import com.google.appengine.api.appidentity.*;
-import com.google.appengine.api.blobstore.*;
-import com.google.appengine.api.datastore.*;
-import com.google.appengine.api.datastore.Query.*;
-import com.google.appengine.api.files.*;
-import com.google.appengine.api.images.*;
 import com.google.appengine.tools.cloudstorage.*;
 
 import javax.servlet.http.HttpServlet;
@@ -13,8 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.ByteBuffer;
-
-import static com.google.appengine.api.taskqueue.TaskOptions.Builder.*;
 
 /*
 UploadServlet: this class's doPost method is called when a user submits the form
